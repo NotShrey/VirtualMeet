@@ -13,7 +13,6 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
           <div className="w-full">{children}</div>
         </section>
       </div>
-      {children}
     </main>
   );
 };
