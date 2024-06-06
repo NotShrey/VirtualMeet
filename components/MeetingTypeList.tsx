@@ -4,13 +4,30 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import HomeCard from './HomeCard'
 import MeetingModal from './MeetingModal';
+import { useUser } from '@clerk/nextjs';
+import { useStreamVideoClient } from '@stream-io/video-react-sdk';
 
 const MeetingTypeList = () => {
   const router = useRouter();
   const [meetingState, setMeetingState] = useState<
     'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
   >(undefined);
+
+  const {user} = useUser();// from clerk
  
+  const client = useStreamVideoClient();
+
+  if(!client ||!user){
+    try {
+      const id = crypto.randomUUID;// gobal property that allows us to create random IDs
+
+      const call = client?.call('default',id)
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   const createMeeting = () =>{
     
   } 
