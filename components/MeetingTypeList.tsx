@@ -8,8 +8,8 @@ import MeetingModal from './MeetingModal';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk';
 import { useUser } from '@clerk/nextjs';
 import Loader from './Loader';
-// import { Textarea } from './ui/textarea';
-// import ReactDatePicker from 'react-datepicker';
+import { Textarea } from './ui/textarea';
+import ReactDatePicker from 'react-datepicker';
 // import { Input } from './ui/input';
 import { useToast } from './ui/use-toast';
 
@@ -66,6 +66,7 @@ const MeetingTypeList = () => {
 
   if (!client || !user) return <Loader />;
 
+  // to copy the Scheduled meeting link
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${callDetail?.id}`;
 
   return (
@@ -104,23 +105,23 @@ const MeetingTypeList = () => {
           onClose={() => setMeetingState(undefined)}
           title="Create Meeting"
           handleClick={createMeeting}
-        >
+        >{/*Passing the children as to schedule a meeting*/}
           <div className="flex flex-col gap-2.5">
             <label className="text-base font-normal leading-[22.4px] text-sky-2">
               Add a description
             </label>
-            {/* <Textarea
+            <Textarea
               className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
               onChange={(e) =>
                 setValues({ ...values, description: e.target.value })
               }
-            /> */}
+            />
           </div>
           <div className="flex w-full flex-col gap-2.5">
             <label className="text-base font-normal leading-[22.4px] text-sky-2">
               Select Date and Time
             </label>
-            {/* <ReactDatePicker
+            <ReactDatePicker
               selected={values.dateTime}
               onChange={(date) => setValues({ ...values, dateTime: date! })}
               showTimeSelect
@@ -129,7 +130,7 @@ const MeetingTypeList = () => {
               timeCaption="time"
               dateFormat="MMMM d, yyyy h:mm aa"
               className="w-full rounded bg-dark-3 p-2 focus:outline-none"
-            /> */}
+            />
           </div>
         </MeetingModal>
       ) : (
