@@ -10,7 +10,19 @@ import {
 import Alert from './Alert';
 import { Button } from './ui/button';
 
-const MeetingSetup = () => {
+const MeetingSetup = ({
+  setIsSetupComplete,
+}: {
+  setIsSetupComplete: (value: boolean) => void;
+}) => {
+  // https://getstream.io/video/docs/react/guides/call-and-participant-state/#call-state
+  const { useCallEndedAt, useCallStartsAt } = useCallStateHooks();
+  const callStartsAt = useCallStartsAt();
+  const callEndedAt = useCallEndedAt();
+  const callTimeNotArrived =
+    callStartsAt && new Date(callStartsAt) > new Date();
+  const callHasEnded = !!callEndedAt;
+
   const call = useCall();
 
   if (!call) {
@@ -19,7 +31,8 @@ const MeetingSetup = () => {
     );
   }
 
-  const [isMicCamToggled, setIsMicCamToggled] = useState(false)
+  // https://getstream.io/video/docs/react/ui-cookbook/replacing-call-controls/
+  const [isMicCamToggled, setIsMicCamToggled] = useState(false);
 
   useEffect(() => {
     if (isMicCamToggled) {
@@ -38,13 +51,14 @@ const MeetingSetup = () => {
       />
     );
 
-    if (callHasEnded)
-      return (
-        <Alert
-          title="The call has been ended by the host"
-          iconUrl="/icons/call-ended.svg"
-        />
-      );
+  if (callHasEnded)
+    return (
+      <Alert
+        title="The call has been ended by the host"
+        iconUrl="/icons/call-ended.svg"
+      />
+    );
+
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-3 text-white">
       <h1 className="text-center text-2xl font-bold">Setup</h1>
